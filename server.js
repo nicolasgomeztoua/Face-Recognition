@@ -12,10 +12,8 @@ const image = require("./controllers/image");
 const db = knex({
   client: "pg",
   connection: {
-    host: "5432",
-    user: "postgres",
-    password: "05072001",
-    database: "yelpclone",
+    host: process.env.DATABASE_URL,
+    ssl: true,
   },
 });
 
@@ -25,7 +23,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  res.send("its working");
+  res.send(db.users);
 });
 app.post("/signin", signin.handleSignin(db, bcrypt));
 app.post("/register", (req, res) => {
